@@ -4,18 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,10 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
@@ -52,7 +42,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyApplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-
                     NavHost(
                         modifier = Modifier.padding(innerPadding),
                         navController = rememberNavController(),
@@ -68,16 +57,6 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 TestList(
                                     modifier = Modifier.fillMaxSize(),
-                                )
-                            }
-
-                            composable(
-                                route = "route2"
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .background(Color.White)
                                 )
                             }
                         }
@@ -120,9 +99,6 @@ fun TestList(modifier: Modifier) {
                                     modifier = Modifier.fillMaxWidth(),
                                     viewModel = viewModel,
                                 )
-
-                                // this causes only one page to load
-//                            viewModel.retryOnlyLoadStateListener()
                             }
                         }
 
@@ -177,26 +153,4 @@ fun GreetingPreview() {
     MyApplicationTheme {
         Greeting("Android")
     }
-}
-
-@Composable
-fun NavHost(
-    navController: NavHostController,
-    startDestination: String,
-    modifier: Modifier = Modifier,
-    contentAlignment: Alignment = Alignment.Center,
-    route: String? = null,
-    enterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition) =
-        { fadeIn(animationSpec = tween(700)) },
-    exitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition) =
-        { fadeOut(animationSpec = tween(700)) },
-    popEnterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition) =
-        enterTransition,
-    popExitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition) =
-        exitTransition,
-    builder: NavGraphBuilder.() -> Unit
-) {
-    androidx.navigation.compose.NavHost(
-        navController, startDestination, modifier, contentAlignment, route, enterTransition, exitTransition, popEnterTransition, popExitTransition, builder
-    )
 }

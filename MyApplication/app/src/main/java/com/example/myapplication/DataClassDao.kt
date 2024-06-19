@@ -9,9 +9,6 @@ import androidx.room.Query
 @Dao
 interface DataClassDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(entity: DataClassEntity)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertList(list: List<DataClassEntity>)
 
     @Query("SELECT * FROM DataClassEntity WHERE data_id in (SELECT dataId FROM remote_keys where dataKey = :key) and data_key = :key ORDER BY id ASC")

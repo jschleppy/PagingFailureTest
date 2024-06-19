@@ -17,7 +17,6 @@ open class DefaultLazyPagingItems<T : Any> : ILazyPagingItems<T> {
         return _lazyPagingItems != null
     }
     override var refreshPagingItems: Boolean by mutableStateOf(false)
-    override var retryCount: Int = 0
     override var loadAttempted: Boolean = false
     override var isLoadingAppend: Boolean by mutableStateOf(false)
     override var isLoadingPrepend: Boolean by mutableStateOf(false)

@@ -1,15 +1,11 @@
 package com.example.myapplication
 
-import android.app.Application
-import android.provider.ContactsContract.Data
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.compose.LazyPagingItems
 import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MyViewModel @Inject constructor(
     val appDatabase: AppDatabase,
-    val application: Application,
 ) : ViewModel(),
     IViewModelRefreshable by DefaultRefreshableViewModel(),
     IViewModelPager by DefaultViewModelPager(pageCount = 2, showPageIndicator = false),
@@ -70,5 +65,4 @@ class MyViewModel @Inject constructor(
     fun onClickItem(item: DataClass) {
         pageIndex = 1
     }
-
 }

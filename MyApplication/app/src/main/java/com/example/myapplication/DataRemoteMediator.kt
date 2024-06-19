@@ -1,8 +1,6 @@
 package com.example.myapplication
 
-import android.provider.MediaStore.Audio.Media
 import android.util.Log
-import androidx.compose.runtime.key
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.LoadType.*
@@ -105,6 +103,5 @@ class DataRemoteMediator @Inject constructor(
 
     companion object {
         const val DEFAULT_PAGE_INDEX = 0
-
     }
 }
