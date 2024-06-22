@@ -9,7 +9,6 @@ import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -19,6 +18,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -27,6 +27,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerScope
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.PullRefreshState
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -101,16 +102,23 @@ fun TestList(modifier: Modifier) {
                 ) { index ->
                     when (index) {
                         0 -> {
-                            Box(modifier = Modifier.height(400.dp)) {
+                            Box(modifier = Modifier
+                                .height(400.dp)
+                                .border(width = 1.dp, color = Color.Red)) {
                                 DataRow(
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier.height(200.dp).fillMaxWidth(),
                                     viewModel = viewModel,
                                 )
                             }
                         }
 
                         1 -> {
-                            Box(modifier = Modifier.height(400.dp).background(Color.Black))
+                            Box(modifier = Modifier
+                                .height(400.dp)
+                                .fillMaxWidth()
+                                .border(width = 1.dp, color = Color.Green)) {
+                                Text(text = "swipe back", modifier = Modifier.align(Alignment.Center))
+                            }
                         }
                     }
                 }
@@ -139,12 +147,16 @@ fun DataRow(modifier: Modifier,
         items(viewModel.lazyPagingItemCount) { i ->
             val item = viewModel.lazyPagingItems[i]
             item?.let {
-                Greeting(
-                    name = it.title,
-                    modifier = Modifier.fillMaxSize().clickable {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .clickable {
                         viewModel.onClickItem(it)
-                    }
-                )
+                    }) {
+                    Greeting(
+                        name = it.title,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
             }
         }
     }
@@ -154,7 +166,7 @@ fun DataRow(modifier: Modifier,
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
         text = "Hello $name!",
-        modifier = modifier
+        modifier = modifier.padding(5.dp)
     )
 }
 
@@ -173,7 +185,38 @@ fun DefaultPullRefreshBox(
         modifier = modifier.pullRefresh(pullRefreshState, enabled = viewModel.isRefreshEnabled),
     ) {
         content()
+
+        DefaultPullRefreshIndicator(
+            modifier = Modifier,
+            viewModel = viewModel,
+            pullRefreshState = pullRefreshState,
+            backgroundColor = Color.Black,
+            contentColor = Color.White,
+            scale = false,
+        )
     }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun BoxScope.DefaultPullRefreshIndicator(
+    modifier: Modifier,
+    viewModel: MyViewModel,
+    pullRefreshState: PullRefreshState,
+    backgroundColor: Color, /*= LocalThemeTemplate.current.pullRefreshTemplate().backgroundColor,*/
+    contentColor: Color, /*= LocalThemeTemplate.current.pullRefreshTemplate().contentColor,*/
+    scale: Boolean, /*= LocalThemeTemplate.current.pullRefreshTemplate().scale,*/
+) {
+    PullRefreshIndicator(
+        refreshing = viewModel.isRefreshing,
+        state = pullRefreshState,
+        modifier = modifier
+            .align(Alignment.TopCenter)
+            .offset(y = 0.dp),
+        backgroundColor = backgroundColor,
+        contentColor = contentColor,
+        scale = scale,
+    )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
