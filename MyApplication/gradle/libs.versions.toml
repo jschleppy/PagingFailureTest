@@ -1,24 +1,25 @@
 [versions]
-agp = "8.5.0"
-kotlin = "1.9.22"
+agp = "8.6.1"
+kotlin = "2.0.10"
 coreKtx = "1.13.1"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.8.2"
-activityCompose = "1.9.0"
-compose_bom_version = "2024.06.00"
-navigationRuntimeKtx = "2.7.7"
-navigationCompose = "2.7.7"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.6"
+activityCompose = "1.9.2"
+compose_bom_version = "2024.09.02"
+navigationRuntimeKtx = "2.8.1"
+navigationCompose = "2.8.1"
 android_material_version = "1.12.0"
-paging_version = "3.3.0"
+paging_version = "3.3.2"
 room_version = '2.6.1'
-devtools_ksp_gradle_plugin_version = "1.9.22-1.0.17"
+devtools_ksp_gradle_plugin_version = "2.0.10-1.0.24"
 javax_inject_version = '1'
-hilt_dagger_version = "2.51.1"
+hilt_dagger_version = "2.52"
 hilt_androidx_version = '1.2.0'
 hilt_androidx_compose_version = '1.2.0'
-work_version = '2.9.0'
+work_version = '2.9.1'
+compose_plugin = "1.7.0-alpha02"
 
 
 [libraries]
@@ -78,4 +79,6 @@ androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "devtools_ksp_gradle_plugin_version"}
-
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose_plugin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

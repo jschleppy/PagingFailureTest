@@ -38,7 +38,6 @@ class MyViewModel @Inject constructor(
         set(value) {
             _lazyPagingItems = value
         }
-    var refreshPagingItems: Boolean by mutableStateOf(false)
     lateinit var pagerState: PagerState
     var pageIndex: Int by mutableIntStateOf(0)
     var pageCount: Int by mutableIntStateOf(2)
@@ -95,34 +94,11 @@ class MyViewModel @Inject constructor(
         pageIndex = 1
     }
 
-    fun doesLazyPagingNeedRecollected(): Boolean {
-        // always if it was never initialized
-        if (_lazyPagingItems == null) {
-            return true
-        }
-        // otherwise, set to any manual override
-        var needsRecollected = refreshPagingItems
-
-        // if itemCount == 0, it may have failed to load, retry
-        if (lazyPagingItems.itemCount == 0) {
-            needsRecollected = true
-        }
-
-        // reset this, have it only return true once for this value
-        refreshPagingItems = false
-
-        return needsRecollected
-    }
-
-    fun refreshLazyPagingItems() {
-        // nothing needed to do, isLazyPagingItemsNeedRefreshed will return true
+    private fun refreshLazyPagingItems() {
         if (_lazyPagingItems == null) {
             return
         }
 
-        // this gets isLazyPagingItemsNeedRefreshed to return true, so
-        // view can know to call collectAsLazyPagingItems again
-        refreshPagingItems = true
         lazyPagingItems.refresh()
     }
 

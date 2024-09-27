@@ -133,10 +133,9 @@ fun DataRow(modifier: Modifier,
             viewModel: MyViewModel) {
     val lazyListState = rememberLazyListState()
 
-    if (viewModel.doesLazyPagingNeedRecollected()) {
-        viewModel.lazyPagingItems =
-            viewModel.getData().collectAsLazyPagingItems()
-    }
+    viewModel.lazyPagingItems =
+        viewModel.getData().collectAsLazyPagingItems()
+
     LazyRow(
         modifier = modifier
             .border(width = 2.dp, color = Color.Black)
